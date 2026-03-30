@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Cliente</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+   <div class="panel-container">
+    <h2>Bienvenido Cliente</h2>
+
+    <div style="text-align:center;">
+      <button onclick="verHistorial()">Ver historial de pedidos</button>
+      <button onclick="calificarPedido()">Calificar pedido</button>
+    </div>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+  async function verHistorial() {
+    const id_cliente = prompt("Ingrese su ID de cliente:");
+    const res = await fetch(`http://localhost:3000/cliente/historial/${id_cliente}`);
+    const data = await res.json();
+
+    let html = "<table border='1'><tr><th>ID Pedido</th><th>Fecha</th><th>Estado</th><th>Prioridad</th></tr>";
+    data.forEach(pedido => {
+      html += `<tr>
+        <td>${pedido.id_pedido}</td>
+        <td>${new Date(pedido.fecha).toLocaleDateString()}</td>
+        <td>${pedido.estado}</td>
+        <td>${pedido.prioridad}</td>
+      </tr>`;
+    });
+    html += "</table>";
+
+  document.getElementById("resultado").innerHTML = html;
+}
+
+
+    async function calificarPedido() {
+      const id_pedido = prompt("ID del pedido:");
+      const puntuacion = prompt("Puntuación (1-5):");
+      const comentario = prompt("Comentario:");
+      const res = await fetch("http://localhost:3000/cliente/calificar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_pedido, puntuacion, comentario })
+      });
+      const data = await res.json();
+      document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
+    }
+
+
+  
+  </script>
+</body>
+</html>

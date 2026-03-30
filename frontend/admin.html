@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Administrador</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h2>Bienvenido Administrador</h2>
+  <button onclick="crearUsuario()">Crear usuario</button>
+  <button onclick="verDashboard()">Ver dashboard de ventas</button>
+  <button onclick="crearProducto()">Crear producto</button>
+
+  <div class="panel-container">
+    <h2>Panel de Administración</h2>
+
+  <!-- Canvas para gráfico -->
+  <h3>Gráfico de Ventas</h3>
+  <canvas id="ventasChart" width="400" height="200"></canvas>
+
+  <h3>Ventas Mensuales</h3>
+  <canvas id="ventasMensualesChart" width="400" height="200"></canvas>
+  
+  <h3>Productos Más Vendidos</h3>
+  <canvas id="productosChart" width="400" height="200"></canvas>
+  
+  <button onclick="verVentasMensuales()">Ver ventas mensuales</button>
+  <button onclick="verProductosMasVendidos()">Ver productos más vendidos</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    async function crearUsuario() {
+      const nombre = prompt("Nombre:");
+      const email = prompt("Email:");
+      const rol = prompt("Rol (cliente, vendedor, supervisor):");
+      const contraseña = prompt("Contraseña:");
+      const res = await fetch("http://localhost:3000/admin/usuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, email, rol, contraseña })
+      });
+      const data = await res.json();
+      document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function verDashboard() {
+      const res = await fetch("http://localhost:3000/admin/dashboard");
+      const data = await res.json();
+
+      // Mostrar datos en texto
+      document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
+
+      // Crear gráfico con Chart.js
+      const ctx = document.getElementById("ventasChart").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Total Ventas", "Total Pedidos"],
+          datasets: [{
+            label: "Estadísticas",
+            data: [data.totalVentas, data.totalPedidos],
+            backgroundColor: ["#007bff", "#28a745"]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Dashboard de Ventas" }
+          }
+        }
+      });
+    }
+
+    async function crearProducto() {
+      const nombre = prompt("Nombre del producto:");
+      const descripcion = prompt("Descripción:");
+      const precio = prompt("Precio:");
+      const res = await fetch("http://localhost:3000/admin/productos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, descripcion, precio })
+      });
+      const data = await res.json();
+      document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
+    }
+    
+        async function verVentasMensuales() {
+      const res = await fetch("http://localhost:3000/admin/ventas-mensuales");
+      const data = await res.json();
+
+      const meses = data.map(item => "Mes " + item.mes);
+      const totales = data.map(item => item.total);
+
+      const ctx = document.getElementById("ventasMensualesChart").getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: meses,
+          datasets: [{
+            label: "Ventas por mes",
+            data: totales,
+            borderColor: "#007bff",
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: "Ventas Mensuales" }
+          }
+        }
+      });
+    }
+
+    async function verProductosMasVendidos() {
+      const res = await fetch("http://localhost:3000/admin/productos-mas-vendidos");
+      const data = await res.json();
+
+      const productos = data.map(item => item.nombre);
+      const vendidos = data.map(item => item.total_vendidos);
+
+      const ctx = document.getElementById("productosChart").getContext("2d");
+      new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: productos,
+          datasets: [{
+            label: "Productos más vendidos",
+            data: vendidos,
+            backgroundColor: ["#007bff", "#28a745", "#ffc107", "#dc3545", "#6f42c1"]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: "Top 5 Productos Más Vendidos" }
+          }
+        }
+      });
+    }
+
+  </script>
+</body>
+</html>
