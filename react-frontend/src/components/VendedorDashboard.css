@@ -1,0 +1,22 @@
+.vendedor-dashboard {
+  padding: 20px;
+}
+
+.topbar {
+  margin-bottom: 20px;
+}
+
+.filtro {
+  margin-bottom: 20px;
+}
+
+.tabla-pedidos table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-pedidos th, .tabla-pedidos td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}

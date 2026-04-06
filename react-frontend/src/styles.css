@@ -1,0 +1,131 @@
+/* ===== Estilo general ===== */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h2, h3 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Contenedor general para paneles */
+.panel-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ===== Botones ===== */
+button {
+  margin: 10px;
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* ===== Login ===== */
+.login-container {
+  width: 300px;
+  margin: 100px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-container button {
+  width: 100%;
+}
+
+#errorMsg {
+  color: red;
+  margin-top: 10px;
+}
+
+/* ===== Tablas ===== */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  background: white;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  background-color: #007bff;
+  color: white;
+}
+
+/* ===== Temas por rol ===== */
+
+/* Cliente: verde */
+.cliente-theme h2,
+.cliente-theme table th,
+.cliente-theme button {
+  background-color: #28a745;
+  color: white;
+}
+
+.cliente-theme button:hover {
+  background-color: #218838;
+}
+
+/* Vendedor: naranja */
+.vendedor-theme h2,
+.vendedor-theme table th,
+.vendedor-theme button {
+  background-color: #fd7e14;
+  color: white;
+}
+
+.vendedor-theme button:hover {
+  background-color: #e96b00;
+}
+
+/* Admin: azul */
+.admin-theme h2,
+.admin-theme table th,
+.admin-theme button {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-theme button:hover {
+  background-color: #0056b3;
+}

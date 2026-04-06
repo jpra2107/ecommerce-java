@@ -1,23 +1,20 @@
 const express = require("express");
 const cors = require("cors");
-const pool = require("./db");
-
-const clienteRoutes = require("./routes/cliente");
-const vendedorRoutes = require("./routes/vendedor");
+const bodyParser = require("body-parser");
 const adminRoutes = require("./routes/admin");
-const authRoutes = require("./routes/auth");
+const clienteRoutes = require("./routes/clientes");
+const vendedorRoutes = require("./routes/vendedor");
 
-const app = express(); // ⚠️ primero se crea la app
+const app = express();
+const PORT = 3001;
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Rutas de autenticación
-app.use("/", authRoutes);
-
-// Rutas por rol
 app.use("/cliente", clienteRoutes);
-app.use("/vendedor", vendedorRoutes);
 app.use("/admin", adminRoutes);
+app.use("/vendedor", vendedorRoutes);
 
-app.listen(3000, () => console.log("Servidor corriendo en http://localhost:3000"));
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
