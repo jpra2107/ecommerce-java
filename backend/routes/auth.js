@@ -18,8 +18,6 @@ router.post("/login", async (req, res) => {
 
     const usuario = rows[0];
 
-    // Si tus contraseñas están encriptadas con bcrypt:
-    // const validPassword = await bcrypt.compare(password, usuario.password);
 
     // Si tus contraseñas están planas (ej: "a1234"), usa:
     const validPassword = password === usuario.password;
